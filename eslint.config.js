@@ -4,10 +4,14 @@ import prettierPlugin from "eslint-plugin-prettier";
 import globals from "globals";
 
 export default [
+  // 1. Сначала пишем, что игнорировать (замена .eslintignore)
+  {
+    ignores: ["node_modules/**", "dist/**", "build/**"],
+  },
   js.configs.recommended,
   prettierConfig,
   {
-    files: ["src/**/*.js"],
+    files: ["**/*.js"], // Теперь он будет смотреть все JS файлы
     languageOptions: {
       ecmaVersion: "latest",
       sourceType: "module",

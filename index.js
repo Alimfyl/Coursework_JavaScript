@@ -69,30 +69,32 @@ export const goToPage = (newPage, data) => {
 
     if (newPage === USER_POSTS_PAGE) {
       // @TODO: реализовать получение постов юзера из API
-      
+
       // Включаем спин
       page = LOADING_PAGE;
       renderApp();
 
-      // Вызываем API. ID пользователя мы берем из объекта data, 
+      // Вызываем API. ID пользователя мы берем из объекта data,
       // который передается в goToPage при клике на аватарку
-      return getUserPosts({ 
-        token: getToken(), 
-        userId: data.userId 
-      })
-        .then((newPosts) => {
-          // Обновляем массив постов из API
-          posts = newPosts;
-          // Меняем статус страницы на "Профиль пользователя"
-          page = USER_POSTS_PAGE;
-          // И рисуем приложение с новыми данными
-          renderApp();
+      return (
+        getUserPosts({
+          token: getToken(),
+          userId: data.userId,
         })
-        // Если ошибка то возвращаемся на главную страницу
-        .catch((error) => {
-          console.error(error);
-          goToPage(POSTS_PAGE);
-        });
+          .then((newPosts) => {
+            // Обновляем массив постов из API
+            posts = newPosts;
+            // Меняем статус страницы на "Профиль пользователя"
+            page = USER_POSTS_PAGE;
+            // И рисуем приложение с новыми данными
+            renderApp();
+          })
+          // Если ошибка то возвращаемся на главную страницу
+          .catch((error) => {
+            console.error(error);
+            goToPage(POSTS_PAGE);
+          })
+      );
     }
 
     page = newPage;

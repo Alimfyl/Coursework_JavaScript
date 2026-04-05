@@ -42,7 +42,7 @@ export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
         element: uploadImageContainer,
         onImageUrlChange(newImageUrl) {
           // Сохраняем ссылку из загрузки
-          imageUrl = newImageUrl; 
+          imageUrl = newImageUrl;
         },
       });
     }

@@ -1,5 +1,9 @@
 {
+  "name": "coursework-javascript",
+  "version": "1.0.0",
+  "type": "module", 
   "devDependencies": {
+    "@eslint/js": "^10.2.0",
     "eslint": "^10.2.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.5",
@@ -7,7 +11,8 @@
     "prettier": "^3.8.1"
   },
   "scripts": {
-    "lint": "eslint \"src/**/*.js\"",
-    "format": "prettier --write \"src/**/*.js\""
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write ."
   }
 }
