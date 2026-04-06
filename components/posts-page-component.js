@@ -4,9 +4,9 @@ import { renderHeaderComponent } from "./header-component.js";
 import { posts, user, goToPage } from "../index.js";
 import { likePost, dislikePost } from "../api.js";
 // Подключаем импорт из библиотеки date-fns для локализации
-import formatDistanceToNow from "https://jsdelivr.net";
+import { formatDistanceToNow } from "date-fns";
 
-import ru from "https://jsdelivr.net";
+import { ru } from "date-fns/locale";
 
 export function renderPostsPageComponent({ appEl }) {
   if (!posts || posts.length === 0) {
