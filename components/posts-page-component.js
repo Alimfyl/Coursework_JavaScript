@@ -10,39 +10,19 @@ import formatDistanceToNow from
 import ru from
   "https://cdn.jsdelivr.net/npm/date-fns@2.29.3/esm/locale/ru/index.js";
 
-
-export const renderPostsPageComponent = (posts) => {
-  const root = document.createElement('section');
-  root.className = 'posts-page';
-
-
-  if (!posts || posts.length === 0) {
-    const emptyMsg = document.createElement('p');
-    emptyMsg.textContent = 'Постов нет';
-    emptyMsg.style.cssText = `
-      text-align:center;
-      font-size:1.2rem;
-      color:#777;
-      margin-top:2rem;
-    `;
-    root.appendChild(emptyMsg);
-    return root;
-  }
-
-  
-  const list = document.createElement('ul');
-  list.className = 'posts-list';
-
-  posts.forEach((post) => {
-    const postEl = renderPostCardComponent(post);
-    list.appendChild(postEl);
-  });
-
-  root.appendChild(list);
-  return root;
-};
-
 export function renderPostsPageComponent({ appEl }) {
+  if (!posts || posts.length === 0) {
+    appEl.innerHTML = `
+      <div class="page-container">
+        <div class="header-container"></div>
+        <p style="text-align:center; margin-top:2rem;">Постов еще нет</p>
+      </div>`;
+    
+    renderHeaderComponent({
+      element: document.querySelector(".header-container"),
+    });
+    return; // Прерываем выполнение, чтобы код ниже не упал
+  }
   // Удоляем статику
   const postsHtml = posts.map((post) => {
     
