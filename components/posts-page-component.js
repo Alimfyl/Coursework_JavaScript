@@ -4,11 +4,9 @@ import { renderHeaderComponent } from "./header-component.js";
 import { posts, user, goToPage } from "../index.js";
 import { likePost, dislikePost } from "../api.js";
 // Подключаем импорт из библиотеки date-fns для локализации
-import formatDistanceToNow from
-  "https://cdn.jsdelivr.net/npm/date-fns@2.29.3/esm/formatDistanceToNow/index.js";
+import formatDistanceToNow from "https://jsdelivr.net";
 
-import ru from
-  "https://cdn.jsdelivr.net/npm/date-fns@2.29.3/esm/locale/ru/index.js";
+import ru from "https://jsdelivr.net";
 
 export function renderPostsPageComponent({ appEl }) {
   if (!posts || posts.length === 0) {
@@ -17,25 +15,24 @@ export function renderPostsPageComponent({ appEl }) {
         <div class="header-container"></div>
         <p style="text-align:center; margin-top:2rem;">Постов еще нет</p>
       </div>`;
-    
+
     renderHeaderComponent({
       element: document.querySelector(".header-container"),
     });
     return;
   }
-  // Удоляем статику
-  const postsHtml = posts.map((post) => {
-    
-    // Вычисляем сколько времени прошло с момента создания поста до текущего
-    const createDate = post.createdAt
-  ? formatDistanceToNow(new Date(post.createdAt), {
-      addSuffix: true,
-      locale: ru,
-    })
-  : "только что";
+  // Удаляем статику
+  const postsHtml = posts
+    .map((post) => {
+      // Вычисляем сколько времени прошло с момента создания поста до текущего
+      const createDate = post.createdAt
+        ? formatDistanceToNow(new Date(post.createdAt), {
+            addSuffix: true,
+            locale: ru,
+          })
+        : "только что";
 
-
-    return `
+      return `
       <li class="post">
         <div class="post-header" data-user-id="${post.user.id}">
             <img src="${post.user.imageUrl}" class="post-header__user-image">
@@ -46,7 +43,7 @@ export function renderPostsPageComponent({ appEl }) {
         </div>
         <div class="post-likes">
           <button data-post-id="${post.id}" class="like-button">
-            <img src="./assets/images/${post.isLiked ? 'like-active.svg' : 'like-not-active.svg'}">
+            <img src="./assets/images/${post.isLiked ? "like-active.svg" : "like-not-active.svg"}">
           </button>
           <p class="post-likes-text">
             Нравится: <strong>${post.likes.length}</strong>
@@ -60,7 +57,8 @@ export function renderPostsPageComponent({ appEl }) {
           ${createDate}
         </p>
       </li>`;
-  }).join(""); // Превращаем массив строк в одну сплошную HTML-строку
+    })
+    .join(""); // Превращаем массив строк в одну сплошную HTML-строку
 
   // Вставляем сгенерированный список в общую оболочку страницы
   const appHtml = `
@@ -82,7 +80,7 @@ export function renderPostsPageComponent({ appEl }) {
   for (let button of document.querySelectorAll(".like-button")) {
     button.addEventListener("click", () => {
       if (!user) {
-        alert("Чтобы поставить лайк, нужна аторизация");
+        alert("Чтобы поставить лайк, нужна авторизация");
         return;
       }
 
@@ -92,9 +90,6 @@ export function renderPostsPageComponent({ appEl }) {
       // Если лайк есть то удаляем или ставим
       const apiFunction = post.isLiked ? dislikePost : likePost;
 
-      const oldIsLiked = post.isLiked;
-      const oldLikes = [...post.likes];
-
       // Перерисовываем страницу
       renderPostsPageComponent({ appEl });
 
@@ -103,25 +98,25 @@ export function renderPostsPageComponent({ appEl }) {
         token: `Bearer ${user.token}`,
         postId,
       })
-      .then((data) => {
-        const updatedPost = data.post || data;
-        // Сохраняем данные с сервера
-        post.likes = updatedPost.likes || [];
-        post.isLiked = updatedPost.isLiked;
-        // И опять перерисовываем
-        renderPostsPageComponent({ appEl });
-      })
-      .catch((error) => {
-        console.error("Ошибка при работе с лайком:", error);
-        // Если ошибка 
-        renderPostsPageComponent({ appEl });
-        alert("Не удалось обработать лайк.");
-      });
+        .then((data) => {
+          const updatedPost = data.post || data;
+          // Сохраняем данные с сервера
+          post.likes = updatedPost.likes || [];
+          post.isLiked = updatedPost.isLiked;
+          // И опять перерисовываем
+          renderPostsPageComponent({ appEl });
+        })
+        .catch((error) => {
+          console.error("Ошибка при работе с лайком:", error);
+          // Если ошибка
+          renderPostsPageComponent({ appEl });
+          alert("Не удалось обработать лайк.");
+        });
     });
   }
 
   // Обработчик кликов на заголовки постов
-  // goToPage при клике на заголовок дожны попасть в профиль автора
+  // goToPage при клике на заголовок должны попасть в профиль автора
   for (let userEl of document.querySelectorAll(".post-header")) {
     userEl.addEventListener("click", () => {
       goToPage(USER_POSTS_PAGE, {

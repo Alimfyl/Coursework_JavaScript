@@ -1,4 +1,4 @@
-import { uploadImage } from '../api.js';
+import { uploadImage } from "../api.js";
 
 /**
  * Компонент загрузки изображения.
@@ -15,7 +15,7 @@ export function renderUploadImageComponent({ element, onImageUrlChange }) {
    * Изначально пуст, пока пользователь не загрузит изображение.
    * @type {string}
    */
-  let imageUrl = '';
+  let imageUrl = "";
 
   /**
    * Функция рендеринга компонента.
@@ -54,14 +54,14 @@ export function renderUploadImageComponent({ element, onImageUrlChange }) {
     `;
 
     // Обработчик выбора файла
-    const fileInputElement = element.querySelector('.file-upload-input');
+    const fileInputElement = element.querySelector(".file-upload-input");
 
-    fileInputElement?.addEventListener('change', () => {
+    fileInputElement?.addEventListener("change", () => {
       const file = fileInputElement.files[0];
       if (file) {
-        const labelEl = element.querySelector('.file-upload-label');
-        labelEl.textContent = 'Загружаю файл...';
-        labelEl.style.pointerEvents = 'none';
+        const labelEl = element.querySelector(".file-upload-label");
+        labelEl.textContent = "Загружаю файл...";
+        labelEl.style.pointerEvents = "none";
 
         // Загружаем изображение с помощью API
         uploadImage({ file })
@@ -71,8 +71,8 @@ export function renderUploadImageComponent({ element, onImageUrlChange }) {
             render(); // Перерисовываем компонент с новым состоянием
           })
           .catch((error) => {
-            console.error('Ошибка загрузки:', error);
-            alert('Не удалось загрузить фото');
+            console.error("Ошибка загрузки:", error);
+            alert("Не удалось загрузить фото");
             render(); // Возвращаем в исходное состояние при ошибке
           });
       }
@@ -80,9 +80,9 @@ export function renderUploadImageComponent({ element, onImageUrlChange }) {
 
     // Обработчик удаления изображения
     element
-      .querySelector('.file-upload-remove-button')
-      ?.addEventListener('click', () => {
-        imageUrl = ''; // Сбрасываем URL изображения
+      .querySelector(".file-upload-remove-button")
+      ?.addEventListener("click", () => {
+        imageUrl = ""; // Сбрасываем URL изображения
         onImageUrlChange(imageUrl); // Уведомляем об изменении URL изображения
         render(); // Перерисовываем компонент
       });
