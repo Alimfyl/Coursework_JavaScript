@@ -1,4 +1,4 @@
-import { uploadImage } from "../api.js";
+import { uploadImage } from '../api.js';
 
 /**
  * Компонент загрузки изображения.
@@ -15,7 +15,7 @@ export function renderUploadImageComponent({ element, onImageUrlChange }) {
    * Изначально пуст, пока пользователь не загрузит изображение.
    * @type {string}
    */
-  let imageUrl = "";
+  let imageUrl = '';
 
   /**
    * Функция рендеринга компонента.
@@ -29,8 +29,14 @@ export function renderUploadImageComponent({ element, onImageUrlChange }) {
           imageUrl
             ? `
             <div class="file-upload-image-container">
-              <img class="file-upload-image" src="${imageUrl}" alt="Загруженное изображение">
-              <button class="file-upload-remove-button button">Заменить фото</button>
+              <img 
+                class="file-upload-image" 
+                src="${imageUrl}" 
+                alt="Загруженное изображение"
+                loading="lazy"
+                onerror="this.onerror=null;this.src='./assets/images/default-post.jpg';"
+              >
+              <button class="file-upload-remove-button button" type="button">Заменить фото</button>
             </div>
             `
             : `
@@ -48,28 +54,35 @@ export function renderUploadImageComponent({ element, onImageUrlChange }) {
     `;
 
     // Обработчик выбора файла
-    const fileInputElement = element.querySelector(".file-upload-input");
-    fileInputElement?.addEventListener("change", () => {
+    const fileInputElement = element.querySelector('.file-upload-input');
+
+    fileInputElement?.addEventListener('change', () => {
       const file = fileInputElement.files[0];
       if (file) {
-        const labelEl = document.querySelector(".file-upload-label");
-        labelEl.setAttribute("disabled", true);
-        labelEl.textContent = "Загружаю файл...";
+        const labelEl = element.querySelector('.file-upload-label');
+        labelEl.textContent = 'Загружаю файл...';
+        labelEl.style.pointerEvents = 'none';
 
         // Загружаем изображение с помощью API
-        uploadImage({ file }).then(({ fileUrl }) => {
-          imageUrl = fileUrl; // Сохраняем URL загруженного изображения
-          onImageUrlChange(imageUrl); // Уведомляем о изменении URL изображения
-          render(); // Перерисовываем компонент с новым состоянием
-        });
+        uploadImage({ file })
+          .then(({ fileUrl }) => {
+            imageUrl = fileUrl; // Сохраняем URL загруженного изображения
+            onImageUrlChange(imageUrl); // Уведомляем о изменении URL изображения
+            render(); // Перерисовываем компонент с новым состоянием
+          })
+          .catch((error) => {
+            console.error('Ошибка загрузки:', error);
+            alert('Не удалось загрузить фото');
+            render(); // Возвращаем в исходное состояние при ошибке
+          });
       }
     });
 
     // Обработчик удаления изображения
     element
-      .querySelector(".file-upload-remove-button")
-      ?.addEventListener("click", () => {
-        imageUrl = ""; // Сбрасываем URL изображения
+      .querySelector('.file-upload-remove-button')
+      ?.addEventListener('click', () => {
+        imageUrl = ''; // Сбрасываем URL изображения
         onImageUrlChange(imageUrl); // Уведомляем об изменении URL изображения
         render(); // Перерисовываем компонент
       });

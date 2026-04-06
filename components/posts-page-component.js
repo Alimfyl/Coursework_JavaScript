@@ -21,7 +21,7 @@ export function renderPostsPageComponent({ appEl }) {
     renderHeaderComponent({
       element: document.querySelector(".header-container"),
     });
-    return; // Прерываем выполнение, чтобы код ниже не упал
+    return;
   }
   // Удоляем статику
   const postsHtml = posts.map((post) => {
