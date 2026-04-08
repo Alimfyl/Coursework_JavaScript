@@ -1,32 +1,36 @@
-import js from "@eslint/js";
-import prettierConfig from "eslint-config-prettier";
-import prettierPlugin from "eslint-plugin-prettier";
-import globals from "globals";
+import js from '@eslint/js';
+import globals from 'globals';
+import prettierConfig from 'eslint-config-prettier';
+import prettierPlugin from 'eslint-plugin-prettier';
 
 export default [
-  // 1. Сначала пишем, что игнорировать (замена .eslintignore)
   {
-    ignores: ["node_modules/**", "dist/**", "build/**"],
+    ignores: [
+      'dist/**',
+      'node_modules/**',
+      'package-lock.json',
+      'package.json',
+      '**/*.css',
+    ],
   },
   js.configs.recommended,
   prettierConfig,
   {
-    files: ["**/*.js"], // Теперь он будет смотреть все JS файлы
+    files: ['**/*.js'],
     languageOptions: {
-      ecmaVersion: "latest",
-      sourceType: "module",
+      ecmaVersion: 'latest',
+      sourceType: 'module',
       globals: {
         ...globals.browser,
-        ...globals.node,
       },
     },
     plugins: {
       prettier: prettierPlugin,
     },
     rules: {
-      "prettier/prettier": "error",
-      "no-unused-vars": "warn",
-      "no-console": "off",
+      'prettier/prettier': 'error',
+      'no-unused-vars': 'warn',
+      'no-console': 'off',
     },
   },
 ];

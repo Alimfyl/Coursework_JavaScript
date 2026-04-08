@@ -1,21 +1,21 @@
 // Импортируем новую функцию getUserPosts
-import { getPosts, getUserPosts, addPost } from "./api.js";
-import { renderAddPostPageComponent } from "./components/add-post-page-component.js";
-import { renderAuthPageComponent } from "./components/auth-page-component.js";
+import { getPosts, getUserPosts, addPost } from './api.js';
+import { renderAddPostPageComponent } from './components/add-post-page-component.js';
+import { renderAuthPageComponent } from './components/auth-page-component.js';
 import {
   ADD_POSTS_PAGE,
   AUTH_PAGE,
   LOADING_PAGE,
   POSTS_PAGE,
   USER_POSTS_PAGE,
-} from "./routes.js";
-import { renderPostsPageComponent } from "./components/posts-page-component.js";
-import { renderLoadingPageComponent } from "./components/loading-page-component.js";
+} from './routes.js';
+import { renderPostsPageComponent } from './components/posts-page-component.js';
+import { renderLoadingPageComponent } from './components/loading-page-component.js';
 import {
   getUserFromLocalStorage,
   removeUserFromLocalStorage,
   saveUserToLocalStorage,
-} from "./helpers.js";
+} from './helpers.js';
 
 export let user = getUserFromLocalStorage();
 export let page = null;
@@ -103,11 +103,11 @@ export const goToPage = (newPage, data) => {
     return;
   }
 
-  throw new Error("страницы не существует");
+  throw new Error('страницы не существует');
 };
 
 const renderApp = () => {
-  const appEl = document.getElementById("app");
+  const appEl = document.getElementById('app');
   if (page === LOADING_PAGE) {
     return renderLoadingPageComponent({
       appEl,

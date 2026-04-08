@@ -1,4 +1,4 @@
-import { renderHeaderComponent } from "./header-component.js";
+import { renderHeaderComponent } from './header-component.js';
 
 /**
  * Компонент страницы загрузки.
@@ -31,7 +31,7 @@ export function renderLoadingPageComponent({ appEl, user, goToPage }) {
    */
   renderHeaderComponent({
     user,
-    element: document.querySelector(".header-container"),
+    element: document.querySelector('.header-container'),
     goToPage,
   });
 }

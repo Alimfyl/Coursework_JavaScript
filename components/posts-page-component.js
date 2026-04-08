@@ -1,12 +1,12 @@
-import { USER_POSTS_PAGE } from "../routes.js";
-import { renderHeaderComponent } from "./header-component.js";
+import { USER_POSTS_PAGE } from '../routes.js';
+import { renderHeaderComponent } from './header-component.js';
 // Имортируем массив данных 'posts' и функцию навигации 'goToPage'
-import { posts, user, goToPage } from "../index.js";
-import { likePost, dislikePost } from "../api.js";
+import { posts, user, goToPage } from '../index.js';
+import { likePost, dislikePost } from '../api.js';
 // Подключаем импорт из библиотеки date-fns для локализации
-import formatDistanceToNow from 'https://jsdelivr.net';
+import { formatDistanceToNow } from 'date-fns';
 
-import ru from 'https://jsdelivr.net';
+import { ru } from 'date-fns/locale';
 
 export function renderPostsPageComponent({ appEl }) {
   if (!posts || posts.length === 0) {
@@ -17,7 +17,7 @@ export function renderPostsPageComponent({ appEl }) {
       </div>`;
 
     renderHeaderComponent({
-      element: document.querySelector(".header-container"),
+      element: document.querySelector('.header-container'),
     });
     return;
   }
@@ -30,7 +30,7 @@ export function renderPostsPageComponent({ appEl }) {
             addSuffix: true,
             locale: ru,
           })
-        : "только что";
+        : 'только что';
 
       return `
       <li class="post">
@@ -43,7 +43,7 @@ export function renderPostsPageComponent({ appEl }) {
         </div>
         <div class="post-likes">
           <button data-post-id="${post.id}" class="like-button">
-            <img src="./assets/images/${post.isLiked ? "like-active.svg" : "like-not-active.svg"}">
+            <img src="./assets/images/${post.isLiked ? 'like-active.svg' : 'like-not-active.svg'}">
           </button>
           <p class="post-likes-text">
             Нравится: <strong>${post.likes.length}</strong>
@@ -58,7 +58,7 @@ export function renderPostsPageComponent({ appEl }) {
         </p>
       </li>`;
     })
-    .join(""); // Превращаем массив строк в одну сплошную HTML-строку
+    .join(''); // Превращаем массив строк в одну сплошную HTML-строку
 
   // Вставляем сгенерированный список в общую оболочку страницы
   const appHtml = `
@@ -73,14 +73,14 @@ export function renderPostsPageComponent({ appEl }) {
 
   // Шапка одна для всех страниц
   renderHeaderComponent({
-    element: document.querySelector(".header-container"),
+    element: document.querySelector('.header-container'),
   });
 
   // Обработчик кликов на лайки
-  for (let button of document.querySelectorAll(".like-button")) {
-    button.addEventListener("click", () => {
+  for (let button of document.querySelectorAll('.like-button')) {
+    button.addEventListener('click', () => {
       if (!user) {
-        alert("Чтобы поставить лайк, нужна авторизация");
+        alert('Чтобы поставить лайк, нужна авторизация');
         return;
       }
 
@@ -107,18 +107,18 @@ export function renderPostsPageComponent({ appEl }) {
           renderPostsPageComponent({ appEl });
         })
         .catch((error) => {
-          console.error("Ошибка при работе с лайком:", error);
+          console.error('Ошибка при работе с лайком:', error);
           // Если ошибка
           renderPostsPageComponent({ appEl });
-          alert("Не удалось обработать лайк.");
+          alert('Не удалось обработать лайк.');
         });
     });
   }
 
   // Обработчик кликов на заголовки постов
   // goToPage при клике на заголовок должны попасть в профиль автора
-  for (let userEl of document.querySelectorAll(".post-header")) {
-    userEl.addEventListener("click", () => {
+  for (let userEl of document.querySelectorAll('.post-header')) {
+    userEl.addEventListener('click', () => {
       goToPage(USER_POSTS_PAGE, {
         userId: userEl.dataset.userId,
       });
