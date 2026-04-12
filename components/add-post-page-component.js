@@ -1,9 +1,9 @@
-import { renderHeaderComponent } from "./header-component.js";
-import { renderUploadImageComponent } from "./upload-image-component.js";
+import { renderHeaderComponent } from './header-component.js';
+import { renderUploadImageComponent } from './upload-image-component.js';
 
 export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
   // Переменная хранения ссылки на фото
-  let imageUrl = "";
+  let imageUrl = '';
 
   const render = () => {
     // @TODO: Реализовать страницу добавления поста
@@ -31,33 +31,33 @@ export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
 
     // Шапка одна для всех страниц
     renderHeaderComponent({
-      element: document.querySelector(".header-container"),
+      element: document.querySelector('.header-container'),
     });
 
     // Рендер формы выбора изображения в его контейнер
-    const uploadImageContainer = appEl.querySelector(".upload-image-container");
+    const uploadImageContainer = appEl.querySelector('.upload-image-container');
 
     if (uploadImageContainer) {
       renderUploadImageComponent({
         element: uploadImageContainer,
         onImageUrlChange(newImageUrl) {
           // Сохраняем ссылку из загрузки
-          imageUrl = newImageUrl; 
+          imageUrl = newImageUrl;
         },
       });
     }
 
     // Сбор данных и вызов callback-функции
-    document.getElementById("add-button").addEventListener("click", () => {
-      const description = document.getElementById("description-input").value;
+    document.getElementById('add-button').addEventListener('click', () => {
+      const description = document.getElementById('description-input').value;
 
       // Валидация: картинка выбрана, описание заполнено
       if (!imageUrl) {
-        alert("Пожалуйста, выберите фото");
+        alert('Пожалуйста, выберите фото');
         return;
       }
       if (!description) {
-        alert("Пожалуйста, добавьте описание");
+        alert('Пожалуйста, добавьте описание');
         return;
       }
 

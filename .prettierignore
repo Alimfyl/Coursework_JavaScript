@@ -1,0 +1,23 @@
+# Зависимости
+node_modules/
+
+# Результаты сборки
+dist/
+build/
+
+# Служебные файлы npm
+package-lock.json
+package.json
+
+# Картинки и шрифты
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.svg
+*.woff
+*.woff2
+
+# Системные файлы
+.DS_Store
+.env
